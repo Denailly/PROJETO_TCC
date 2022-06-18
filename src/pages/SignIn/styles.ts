@@ -29,8 +29,8 @@ export const Logo = styled.div`
     }
 
     > img {
-        width: 40px;
-        height: 40px;
+        width: 100px;
+        height: 100px;
     }
 `;
 
