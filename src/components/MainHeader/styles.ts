@@ -11,7 +11,7 @@ export const Container = styled.div`
 
     padding: 0 10px;
 
-    border-bottom: 1px solid ${props => props.theme.colors.gray};
+    border-bottom: 1px solid ${props => props.theme.colors.tertiary};
 `;
 
 export const Profile = styled.div`

@@ -17,7 +17,7 @@ export const Container = styled.div<IContainerProps>`
     background-color: ${props => props.theme.colors.secondary};
     padding-left: 20px;
 
-    border-right: 1px solid ${props => props.theme.colors.gray};
+    border-right: 1px solid ${props => props.theme.colors.tertiary};
 
     position: relative;
 
@@ -46,15 +46,15 @@ export const Header = styled.header`
 `;
 
 export const LogImg = styled.img`
-    height: 55px;
-    width: 55px;
+    height: 70px;
+    width: 70px;
 
     @media(max-width: 600px){        
         display: none;
     }
 `;
 
-export const Title = styled.h3`
+export const Title = styled.h2`
     color: ${props => props.theme.colors.white};
     margin-left: 10px;
 

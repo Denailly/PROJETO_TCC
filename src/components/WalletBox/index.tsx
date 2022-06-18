@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import CountUp from 'react-countup';
 
-import dolarImg from '../../assets/dolar.svg';
+import pigImg from '../../assets/pig.svg';
 import arrowUpImg from '../../assets/arrow-up.svg';
 import arrowDownImg from '../../assets/arrow-down.svg';
 
@@ -12,7 +12,7 @@ interface IWalletBoxProps {
     title: string;
     amount: number;
     footerlabel: string;
-    icon: 'dolar' | 'arrowUp' | 'arrowDown';
+    icon: 'pig' | 'arrowUp' | 'arrowDown';
     color: string;
 }
 
@@ -26,8 +26,8 @@ const WalletBox: React.FC<IWalletBoxProps> = ({
 
     const iconSelected = useMemo(() => {
         switch (icon) {
-            case 'dolar':
-                return dolarImg;
+            case 'pig':
+                return pigImg;
             case 'arrowUp': 
                 return arrowUpImg;
             case 'arrowDown':

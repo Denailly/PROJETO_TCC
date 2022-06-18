@@ -153,13 +153,13 @@ const Dashboard: React.FC = () => {
                 name: "Entradas",
                 value: totalGains,
                 percent: percentGains ? percentGains : 0, 
-                color: '#E44C4E'
+                color: '#3a9449'
             },
             {
                 name: "Saídas",
                 value: totalExpenses,
                 percent: percentExpenses ? percentExpenses : 0, 
-                color: '#F7931B'
+                color: '#E44C4E'
             },
         ];
 
@@ -247,7 +247,7 @@ const Dashboard: React.FC = () => {
                 name: 'Recorrentes',
                 amount: amountRecurrent,
                 percent: percentRecurrent ? percentRecurrent : 0, 
-                color: "#F7931B"
+                color: "#3a9449"
             },
             {
                 name: 'Eventuais',
@@ -291,7 +291,7 @@ const Dashboard: React.FC = () => {
                 name: 'Recorrentes',
                 amount: amountRecurrent,
                 percent: percentRecurrent ? percentRecurrent : 0,
-                color: "#F7931B"
+                color: "#3a9449"
             },
             {
                 name: 'Eventuais',
@@ -326,7 +326,7 @@ const Dashboard: React.FC = () => {
 
     return (
         <Container>
-            <ContentHeader title="Dashboard" lineColor="#F7931B">
+            <ContentHeader title="Dashboard" lineColor="#584bec">
                 <SelectInput 
                     options={months}
                     onChange={(e) => handleMonthSelected(e.target.value)} 
@@ -342,15 +342,15 @@ const Dashboard: React.FC = () => {
             <Content>
                 <WalletBox 
                     title="saldo"
-                    color="#4E41F0"
+                    color="#584bec"
                     amount={totalBalance}
                     footerlabel="atualizado com base nas entradas e saídas"
-                    icon="dolar"
+                    icon="pig"
                 />
 
                 <WalletBox 
                     title="entradas"
-                    color="#F7931B"
+                    color="#3ba84d"
                     amount={totalGains}
                     footerlabel="atualizado com base nas entradas e saídas"
                     icon="arrowUp"
@@ -358,7 +358,7 @@ const Dashboard: React.FC = () => {
 
                 <WalletBox 
                     title="saídas"
-                    color="#E44C4E"
+                    color="#b0383a"
                     amount={totalExpenses}
                     footerlabel="atualizado com base nas entradas e saídas"
                     icon="arrowDown"
@@ -375,7 +375,7 @@ const Dashboard: React.FC = () => {
 
                 <HistoryBox 
                     data={historyData} 
-                    lineColorAmountEntry="#F7931B"
+                    lineColorAmountEntry="#3a9449"
                     lineColorAmountOutput="#E44C4E"
                 />
 

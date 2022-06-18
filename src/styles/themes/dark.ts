@@ -2,16 +2,16 @@ export default {
     title: 'dark',
 
     colors: {
-        primary: '#1B1F38',
-        secondary: '#252A48',
-        tertiary: '#313862',
+        primary: '#111112',
+        secondary: '#1C1E1F',
+        tertiary: '#2D2F30',
 
         white: '#FFF',
         black: '#000',
         gray: '#BFBFBF',
 
-        success: '#4E41F0',
-        info: '#1FF29E',
-        warning: '#E44C4E',
+        success: '#2f903f',
+        info: '#584bec',
+        warning: '#b0383a',
     },
 };
