@@ -10,7 +10,7 @@ export const Container = styled.button`
 
     font-weight: bold;
     color: ${props => props.theme.colors.white};
-    background-color: ${props => props.theme.colors.warning};
+    background-color: ${props => props.theme.colors.info};
 
     transition: opacity .3s;
 

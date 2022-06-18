@@ -49,7 +49,7 @@ export const FormTitle = styled.h1`
         content: '';
         display: block;
         width: 55px;
-        border-bottom: 10px solid ${props => props.theme.colors.warning};  
+        border-bottom: 10px solid ${props => props.theme.colors.info};  
     }
 `;
 
