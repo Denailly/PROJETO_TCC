@@ -1,13 +1,11 @@
-import axios from 'axios';
 import React, { createContext, useState, useContext } from 'react';
-import { toast } from 'react-toastify';
+import apiRequest from '../utils/apiRequest';
 
 interface IAuthContext {
     logged: boolean;
 
     signIn(email: string, password: string, event: any): void;
     signOut(): void;
-    getToken(): string | null;
 }
 
 const AuthContext = createContext<IAuthContext>({} as IAuthContext);
@@ -29,14 +27,17 @@ const AuthProvider: React.FC = ({ children }) => {
             password: password
         }
 
-        axios.postForm('https://b-control.herokuapp.com/login', body)
-            .then(response => {
-                localStorage.setItem('@mr-pig:auth', response.data.accessToken);
-                setLogged(true);
-            }).catch(error => {
-                console.log(error);
-                toast.error(error.response.data.message);
-            });
+        apiRequest('/login', 
+        'POST', 
+        'Usuário logado com sucesso', 
+        body, 
+        undefined, 
+        'multipart/form-data')
+        .promisse
+        .then(data => {
+            localStorage.setItem('@mr-pig:auth', data.accessToken);
+            setLogged(true);
+        });
     }
 
     const signOut = () => {
@@ -44,12 +45,8 @@ const AuthProvider: React.FC = ({ children }) => {
         setLogged(false);
     }
 
-    const getToken = () => {
-        return localStorage.getItem('@mr-pig:auth');
-    }
-
     return (
-        <AuthContext.Provider value={{logged, signIn, signOut, getToken}}>
+        <AuthContext.Provider value={{logged, signIn, signOut}}>
             {children}
         </AuthContext.Provider>
     );

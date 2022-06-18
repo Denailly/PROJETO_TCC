@@ -14,8 +14,7 @@ import {
 } from './styles';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useFetch } from '../../hooks/useFetch';
-import axios from 'axios';
+import apiRequest from '../../utils/apiRequest';
 
 const SignUp: React.FC = () => {
     const [email, setEmail] = useState<string>('');
@@ -39,26 +38,12 @@ const SignUp: React.FC = () => {
             password: password
         };
 
-        //useFetch('/usuarios/cadastrar', 'POST', 'Usuário cadastrado com sucesso', body);
-
-        toast.promise(
-            axios.post('https://b-control.herokuapp.com/usuarios/cadastrar', {
-                nome: name,
-                email: email,
-                password: password
-            })
-            .then(() => history.push('/')),
-            {
-                pending: 'cadastrando...',
-                success:'Usuário cadastrado com sucesso',
-                error: {
-                    render({ data }) {
-                        console.log(data);
-                        return data.response.data.message;
-                    }
-                }
-            });
-
+        apiRequest('/usuarios/cadastrar',
+            'POST',
+            'Usuário cadastrado com sucesso',
+            body)
+            .promisse
+            .then(() => history.push('/'));
     }
 
     return (
