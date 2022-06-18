@@ -27,7 +27,7 @@ const SignIn: React.FC = () => {
                 <h2>Mr. Pig</h2>
             </Logo>
 
-            <Form onSubmit={() => signIn(email, password)}>
+            <Form onSubmit={event => signIn(email, password, event)}>
                 <FormTitle>Entrar</FormTitle>
 
                 <Input 
@@ -45,6 +45,8 @@ const SignIn: React.FC = () => {
 
                <Button type="submit">Acessar</Button>
             </Form>
+            <p>Não tem uma conta?</p>
+            <a href='/cadastrar'><Button >Cadastrar</Button></a>
         </Container>
     );
 }

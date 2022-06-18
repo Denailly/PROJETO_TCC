@@ -46,8 +46,8 @@ export const Header = styled.header`
 `;
 
 export const LogImg = styled.img`
-    height: 40px;
-    width: 40px;
+    height: 55px;
+    width: 55px;
 
     @media(max-width: 600px){        
         display: none;

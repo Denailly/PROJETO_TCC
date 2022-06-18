@@ -10,11 +10,6 @@ export const Container = styled.div`
     align-items: center;
 
     background-color: ${props => props.theme.colors.primary};
-
-    > p {
-        color: ${props => props.theme.colors.white};
-        margin-top: 15px;
-    }
 `;
 
 export const Logo = styled.div`
@@ -29,14 +24,14 @@ export const Logo = styled.div`
     }
 
     > img {
-        width: 100px;
-        height: 100px;
+        width: 40px;
+        height: 40px;
     }
 `;
 
 export const Form = styled.form`
     width: 300px;
-    height: 300px;
+    height: 400px;
 
     padding: 30px;
 

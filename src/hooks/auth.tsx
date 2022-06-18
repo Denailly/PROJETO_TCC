@@ -1,31 +1,47 @@
 import React, { createContext, useState, useContext } from 'react';
+import apiRequest from '../utils/apiRequest';
 
 interface IAuthContext {
     logged: boolean;
-    signIn(email: string, password: string): void;
+
+    signIn(email: string, password: string, event: any): void;
     signOut(): void;
 }
 
 const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 
 const AuthProvider: React.FC = ({ children }) => {
+
     const [logged, setLogged] = useState<boolean>(() => {
-        const isLogged = localStorage.getItem('@mr-pig:logged');
+        const isLogged = localStorage.getItem('@mr-pig:auth');
 
         return !!isLogged;
     });
 
-    const signIn = (email: string, password: string) => {
-        if(email === 'user@email.com' && password === '123'){
-            localStorage.setItem('@mr-pig:logged', 'true');
-            setLogged(true);
-        }else{
-            alert('Senha ou usuário inválidos!');
+    const signIn = (email: string, password: string, event: any) => {
+        
+        event.preventDefault();
+
+        const body = {
+            email: email, 
+            password: password
         }
+
+        apiRequest('/login', 
+        'POST', 
+        'Usuário logado com sucesso', 
+        body, 
+        undefined, 
+        'multipart/form-data')
+        .promisse
+        .then(data => {
+            localStorage.setItem('@mr-pig:auth', data.accessToken);
+            setLogged(true);
+        });
     }
 
     const signOut = () => {
-        localStorage.removeItem('@mr-pig:logged');
+        localStorage.removeItem('@mr-pig:auth');
         setLogged(false);
     }
 
