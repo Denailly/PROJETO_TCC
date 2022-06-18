@@ -51,7 +51,15 @@ const Dashboard: React.FC = () => {
         expensesPerCategory:[],
         gainsPerCategory:[] 
     });
+    const [yearsAvaiable, setYearAvaiable] = useState<number[]>([new Date().getFullYear()]);
 
+    useEffect(() => {
+        apiRequest('usuarios/anos-movimentados', 'GET')
+        .promisse
+        .then(data => {
+            setYearAvaiable(data);
+        })
+    },[]);
 
     useEffect(() => {
         apiRequest(`/resumo/${yearSelected}/${monthSelected}`, 'GET')
@@ -88,24 +96,16 @@ const Dashboard: React.FC = () => {
     }, [yearSelected, monthSelected]);
 
     const years = useMemo(() => {
-        let uniqueYears: number[] = [];
 
-        [...expenses, ...gains].forEach(item => {
-            const date = new Date(item.date);
-            const year = date.getFullYear();
+        console.log(yearsAvaiable);
 
-            if (!uniqueYears.includes(year)) {
-                uniqueYears.push(year)
-            }
-        });
-
-        return uniqueYears.map(year => {
+        return yearsAvaiable.map(year => {
             return {
                 value: year,
                 label: year,
             }
         });
-    }, []);
+    }, [yearsAvaiable]);
 
 
     const months = useMemo(() => {
@@ -121,8 +121,8 @@ const Dashboard: React.FC = () => {
         if (balance.finalBalance < 0) {
             return {
                 title: "Que triste!",
-                description: "Neste mês, você gastou mais do que deveria.",
-                footerText: "Verifique seus gastos e tente cortar algumas coisas desnecessárias.",
+                description: "Neste mês, você gastou mais do que recebeu.",
+                footerText: "Verifique seus gastos e tente organizar suas prioridades.",
                 icon: sadImg
             }
         }

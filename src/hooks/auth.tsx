@@ -18,7 +18,7 @@ const AuthProvider: React.FC = ({ children }) => {
         return !!isLogged;
     });
 
-    const signIn = (email: string, password: string, event: any) => {
+    const signIn = (email: string, password: string, event: Event) => {
         
         event.preventDefault();
 
