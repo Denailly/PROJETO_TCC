@@ -8,11 +8,13 @@ import formatCurrency from '../../utils/formatCurrency';
 import listOfMonths from '../../utils/months';
 
 import {
+    Category,
     Container,
     Content,
     Filters
 } from './styles';
 import apiRequest from '../../utils/apiRequest';
+import useYears from '../../hooks/useYears';
 
 interface IRouteParams {
     match: {
@@ -23,7 +25,7 @@ interface IRouteParams {
 }
 
 interface IData {
-    id: string;
+    id: number;
     description: string;
     amountFormatted: string;
     category: object;
@@ -31,11 +33,19 @@ interface IData {
     tagColor: string;
 }
 
+interface ICategory {
+    categoryId: number;
+    description: string;
+    movimentType: string;
+    color: string;
+}
+
 const List: React.FC<IRouteParams> = ({ match }) => {
     const [data, setData] = useState<IData[]>([]);
     const [monthSelected, setMonthSelected] = useState<number>(new Date().getMonth() + 1);
     const [yearSelected, setYearSelected] = useState<number>(new Date().getFullYear());
-    const [frequencyFilterSelected, setFrequencyFilterSelected] = useState(['recorrente', 'eventual']);
+    const [categories, setCategories] = useState<ICategory[]>([]);
+    const [categoryFilterSelected, setCategoryFilterSelected] = useState<number[]>([]);
 
     const movimentType = match.params.type;
 
@@ -45,38 +55,22 @@ const List: React.FC<IRouteParams> = ({ match }) => {
             {
                 title: 'Entradas',
                 lineColor: '#2f903f',
-                data: data
             }
             :
             {
                 title: 'Saídas',
                 lineColor: '#E44C4E',
-                data: data
             }
-    }, [data]);
+    }, [movimentType]);
 
 
-    const years = useMemo(() => {
-        let uniqueYears: number[] = [];
-
-        data.forEach(item => {
-            let splited:string[] = item.dateFormatted.split('/');
-            const date = new Date(+splited[2], +splited[1], +splited[0]);
-
-            const year = date.getFullYear();
-
-            if (!uniqueYears.includes(year)) {
-                uniqueYears.push(year)
-            }
-        });
-
-        return uniqueYears.map(year => {
+    const years = useYears().map(year => {
             return {
                 value: year,
                 label: year,
             }
-        });
-    }, [data]);
+
+    });
 
 
     const months = useMemo(() => {
@@ -89,14 +83,14 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     }, []);
 
 
-    const handleFrequencyClick = (frequency: string) => {
-        const alreadySelected = frequencyFilterSelected.findIndex(item => item === frequency);
+    const handleCategoryClick = (frequency: number) => {
+        const alreadySelected = categoryFilterSelected.findIndex(item => item === frequency);
 
         if (alreadySelected >= 0) {
-            const filtered = frequencyFilterSelected.filter(item => item !== frequency);
-            setFrequencyFilterSelected(filtered);
+            const filtered = categoryFilterSelected.filter(item => item !== frequency);
+            setCategoryFilterSelected(filtered);
         } else {
-            setFrequencyFilterSelected((prev) => [...prev, frequency]);
+            setCategoryFilterSelected((prev) => [...prev, frequency]);
         }
     }
 
@@ -120,12 +114,52 @@ const List: React.FC<IRouteParams> = ({ match }) => {
         }
     }
 
+    useEffect(() => {
+        apiRequest('/categorias',
+            'GET',
+            undefined,
+            undefined,
+            {
+                tipo: movimentType === 'entry-balance' ? 'RECEITA' : 'DESPESA'
+            })
+            .promisse
+            .then(data => {
+                const categories: ICategory[] = data
+                    .map(categoria => {
+
+                        let category: ICategory = {
+                            categoryId: categoria.id,
+                            description: categoria.descricao,
+                            movimentType: categoria.tipo,
+                            color: categoria.cor
+                        }
+
+                        return category;
+                    })
+
+                setCategories(categories);
+                setCategoryFilterSelected(categories.map(category => category.categoryId));
+            })
+
+
+    }, [movimentType])
 
     useEffect(() => {
 
-        let url:string = movimentType === 'entry-balance' ? 'receitas' : 'despesas';
+        let url: string = movimentType === 'entry-balance' ? 'receitas' : 'despesas';
 
-        apiRequest(`/${url}`, 'GET')
+        const param = new URLSearchParams();
+        categoryFilterSelected.forEach(category => param.append('categoriaIds', category.toFixed(0)));
+        param.append('ano', yearSelected.toFixed(0));
+        param.append('mes', monthSelected.toFixed(0));
+
+
+
+        apiRequest(`/${url}`,
+            'GET',
+            undefined,
+            undefined,
+            param)
             .promisse
             .then(dados => {
 
@@ -142,7 +176,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
 
                 setData(cards);
             });
-    }, [monthSelected, yearSelected, data.length, frequencyFilterSelected]);
+    }, [monthSelected, yearSelected, categoryFilterSelected, movimentType]);
 
 
     return (
@@ -161,27 +195,21 @@ const List: React.FC<IRouteParams> = ({ match }) => {
             </ContentHeader>
 
             <Filters>
-                <button
-                    type="button"
-                    className={`
-                    tag-filter 
-                    tag-filter-recurrent
-                    ${frequencyFilterSelected.includes('recorrente') && 'tag-actived'}`}
-                    onClick={() => handleFrequencyClick('recorrente')}
-                >
-                    Recorrentes
-                </button>
-
-                <button
-                    type="button"
-                    className={`
-                    tag-filter 
-                    tag-filter-eventual
-                    ${frequencyFilterSelected.includes('eventual') && 'tag-actived'}`}
-                    onClick={() => handleFrequencyClick('eventual')}
-                >
-                    Eventuais
-                </button>
+                {
+                    categories.map(category => (
+                        <Category
+                            type="button"
+                            color={category.color}
+                            key={category.categoryId}
+                            className={`
+                                ${categoryFilterSelected.includes(category.categoryId) && 'tag-actived'}
+                            `}
+                            onClick={() => handleCategoryClick(category.categoryId)}
+                            >
+                            {category.description }
+                        </Category>
+                    ))
+                }
             </Filters>
 
             <Content>

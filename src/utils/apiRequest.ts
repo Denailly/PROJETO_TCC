@@ -5,7 +5,7 @@ export const apiRequest = (url: string,
     method: string,
     successMessage?: string,
     body?: object,
-    params?: Array<string>,
+    params?: object,
     contentType?: string) => {
     
 
