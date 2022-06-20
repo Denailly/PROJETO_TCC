@@ -1,6 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyles from './styles/GlobalStyles';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 import { useTheme } from './hooks/theme';
 

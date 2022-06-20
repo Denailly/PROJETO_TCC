@@ -31,14 +31,15 @@ export const apiRequest = (url: string,
         const promisse = toast.promise(axios(options)
             .then(response => data = response.data), {
                 pending: '...',
-                success: successMessage ? `${successMessage}` : undefined, // (?)
+                success: successMessage ? `${successMessage}` : undefined,
                 error: {
                     render({ data }) {
                         
                         if (data.response.status === 403 || data.response.status === 401) {
                             localStorage.removeItem('@mr-pig:auth');
                         }
-                        return data.response.data.message;
+
+                        return data.response.data ? data.response.data.message : 'Erro ao realizar operação';
                     }
                 }
             });

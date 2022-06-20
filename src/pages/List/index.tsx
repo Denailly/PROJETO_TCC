@@ -40,15 +40,20 @@ interface ICategory {
     color: string;
 }
 
+export interface IRenderList {
+    workAround: number;
+    render: React.Dispatch<React.SetStateAction<number>>
+}
+
 const List: React.FC<IRouteParams> = ({ match }) => {
     const [data, setData] = useState<IData[]>([]);
     const [monthSelected, setMonthSelected] = useState<number>(new Date().getMonth() + 1);
     const [yearSelected, setYearSelected] = useState<number>(new Date().getFullYear());
     const [categories, setCategories] = useState<ICategory[]>([]);
     const [categoryFilterSelected, setCategoryFilterSelected] = useState<number[]>([]);
+    const [shouldRender, setSholdRender] = useState<number>(0);
 
     const movimentType = match.params.type;
-
 
     const pageData = useMemo(() => {
         return movimentType === 'entry-balance' ?
@@ -175,8 +180,10 @@ const List: React.FC<IRouteParams> = ({ match }) => {
                 })
 
                 setData(cards);
+
+                
             });
-    }, [monthSelected, yearSelected, categoryFilterSelected, movimentType]);
+    }, [monthSelected, yearSelected, categoryFilterSelected, movimentType, shouldRender]);
 
 
     return (
@@ -221,6 +228,10 @@ const List: React.FC<IRouteParams> = ({ match }) => {
                             title={item.description}
                             subtitle={item.dateFormatted}
                             amount={item.amountFormatted}
+                            cardId={item.id}
+                            cardType={movimentType === 'entry-balance' ? 'receita' : 'despesa'}
+                            render={ {workAround: shouldRender,
+                                render: setSholdRender} }
                         />
                     ))
                 }

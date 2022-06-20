@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 
 interface ITagProps {
-  color: string;
+    color: string;
 }
 
 const animate = keyframes`
@@ -25,7 +25,8 @@ export const Container = styled.li`
     border-radius: 10px;
 
     margin: 10px 0;
-    padding: 12px 10px;
+    padding: 12px 0;
+    padding-left: 10px;
 
     display: flex;
     justify-content: space-between;
@@ -57,7 +58,54 @@ export const Container = styled.li`
         font-weight: 500;
     }
 
-    
+    .controller {
+        display:flex;
+        flex-direction: row;
+        margin-right: 70px;
+
+        .buttons {
+            display:flex;
+            flex-direction: row;
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            border-bottom-right-radius: 10px;
+            border-top-right-radius: 10px;
+
+            .editar{
+                height: 100%;
+                background-color: #825f00;
+                //border-left: 1px solid black;
+                //border-right: 1px solid black;
+
+                > button {
+                background-color: #825f00;
+                color: ${props => props.theme.colors.white};
+                position: relative;
+                top: 20%;
+                bottom: auto;
+                font-size: 30px;
+            }
+            }
+
+            .excluir {
+                height: 100%;
+                background-color:${props => props.theme.colors.warning};
+                border-bottom-right-radius: 10px;
+                border-top-right-radius: 10px;
+
+                > button {
+                background-color:${props => props.theme.colors.warning};
+                color: ${props => props.theme.colors.white};
+                position: relative;
+                top: 20%;
+                bottom: auto;
+                font-size: 30px;
+            }
+            }
+        }
+    }
 
     
 `;
