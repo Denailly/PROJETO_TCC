@@ -11,10 +11,13 @@ import {
     Category,
     Container,
     Content,
+    EditButtons,
     Filters
 } from './styles';
 import apiRequest from '../../utils/apiRequest';
 import useYears from '../../hooks/useYears';
+import Modal from 'react-modal';
+import ModalCategories from '../../components/ModalCategoies';
 
 interface IRouteParams {
     match: {
@@ -33,7 +36,7 @@ interface IData {
     tagColor: string;
 }
 
-interface ICategory {
+export interface ICategory {
     categoryId: number;
     description: string;
     movimentType: string;
@@ -52,8 +55,11 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     const [categories, setCategories] = useState<ICategory[]>([]);
     const [categoryFilterSelected, setCategoryFilterSelected] = useState<number[]>([]);
     const [shouldRender, setSholdRender] = useState<number>(0);
+    const [categoryModalOpen, setCategoryOpen] = useState(false);
+    const [cardModal, setCardModalOpen] = useState(false);
 
     const movimentType = match.params.type;
+    Modal.setAppElement('#root');
 
     const pageData = useMemo(() => {
         return movimentType === 'entry-balance' ?
@@ -70,10 +76,10 @@ const List: React.FC<IRouteParams> = ({ match }) => {
 
 
     const years = useYears().map(year => {
-            return {
-                value: year,
-                label: year,
-            }
+        return {
+            value: year,
+            label: year,
+        }
 
     });
 
@@ -147,7 +153,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
             })
 
 
-    }, [movimentType])
+    }, [movimentType, shouldRender])
 
     useEffect(() => {
 
@@ -181,7 +187,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
 
                 setData(cards);
 
-                
+
             });
     }, [monthSelected, yearSelected, categoryFilterSelected, movimentType, shouldRender]);
 
@@ -212,12 +218,21 @@ const List: React.FC<IRouteParams> = ({ match }) => {
                                 ${categoryFilterSelected.includes(category.categoryId) && 'tag-actived'}
                             `}
                             onClick={() => handleCategoryClick(category.categoryId)}
-                            >
-                            {category.description }
+                        >
+                            {category.description}
                         </Category>
                     ))
                 }
             </Filters>
+
+            <EditButtons>
+                <button onClick={() => setCategoryOpen(true)}>
+                    Editar categorias
+                </button>
+                <button onClick={() => setCardModalOpen(true)}>
+                    Cadastrar nova {movimentType === 'entry-balance' ? 'entrada' : 'saída'}
+                </button>
+            </EditButtons>
 
             <Content>
                 {
@@ -230,12 +245,33 @@ const List: React.FC<IRouteParams> = ({ match }) => {
                             amount={item.amountFormatted}
                             cardId={item.id}
                             cardType={movimentType === 'entry-balance' ? 'receita' : 'despesa'}
-                            render={ {workAround: shouldRender,
-                                render: setSholdRender} }
+                            render={{
+                                workAround: shouldRender,
+                                render: setSholdRender
+                            }}
                         />
                     ))
                 }
             </Content>
+            <ModalCategories 
+                categories={categories}
+                isOpen={categoryModalOpen}
+                setOpen={setCategoryOpen}
+                render={{
+                    workAround: shouldRender,
+                    render: setSholdRender
+                }}
+            />
+
+            <Modal
+                isOpen={cardModal}
+                onRequestClose={() => setCardModalOpen(false)}
+                contentLabel="Modal card"
+                className="modal-content"
+                overlayClassName="modal-overlay"
+            >
+                <h1>Adicionar recurso</h1>
+            </Modal>
         </Container>
     );
 }

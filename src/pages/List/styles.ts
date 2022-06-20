@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-interface ICategoryProps{
+interface ICategoryProps {
     color: string;
 }
 
@@ -43,5 +43,37 @@ export const Filters = styled.div`
     
     .tag-actived {
        opacity: 1;
+    }
+`;
+
+export const EditButtons = styled.div`
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 25px;    
+
+    > button {
+        margin: 7px 0;
+        padding: 10px;
+
+        border-radius: 5px;
+
+        font-weight: bold;
+        color: ${props => props.theme.colors.white};
+        background-color: ${props => props.theme.colors.success};
+        text-decoration: none;
+
+        transition: opacity .3s;
+
+        &:hover{
+            opacity: .7;
+        }
+    }
+
+    @media(max-width: 320px){
+        flex-direction: column;
+    
     }
 `;

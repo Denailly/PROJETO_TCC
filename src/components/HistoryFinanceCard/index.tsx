@@ -46,6 +46,7 @@ const HistoryFinanceCard: React.FC<IHistoryFinanceCardProps> = ({
                     resource={cardType}
                     onClose={onClose}
                     handleDelete={handleDelete}
+                    message={`Tem certeza que deseja apagar ${cardType}?`}
                 />
               );
             }

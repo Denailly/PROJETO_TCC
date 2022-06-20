@@ -6,19 +6,21 @@ interface IConfirmationProps {
     resource: string;
     handleDelete: () => any;
     onClose: () => any;
+    message: string;
 
 }
 
 const ConfirmationDialog: React.FC<IConfirmationProps> = ({
     resource,
     handleDelete,
-    onClose
+    onClose,
+    message
 }) => {
     return (
 
         <Container>
             <h1>Deletar {resource}</h1>
-            <p>Tem certeza que deseja apagar {resource}?</p>
+            <p>{message}</p>
             <button type='button' onClick={onClose}>Não</button>
             <button
                 onClick={() => {
@@ -29,6 +31,7 @@ const ConfirmationDialog: React.FC<IConfirmationProps> = ({
                 Sim, apagar!
             </button>
         </Container>
-)};
+    )
+};
 
 export default ConfirmationDialog;
