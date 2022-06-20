@@ -30,7 +30,6 @@ export const apiRequest = (url: string,
 
         const promisse = toast.promise(axios(options)
             .then(response => data = response.data), {
-                pending: '...',
                 success: successMessage ? `${successMessage}` : undefined,
                 error: {
                     render({ data }) {
