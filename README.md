@@ -1,6 +1,7 @@
 # Projeto TCC ETEC Albert Einstein
 
-Esse projeto possui como foco um gerenciador financeiro.
+Esse projeto possui como foco ser um gerenciador financeiro.
+Facilitando o trabalho de pessoas que costumam usar planilhas para controle de entrada e saida
 
 ## Devs
 
