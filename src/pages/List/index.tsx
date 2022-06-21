@@ -18,6 +18,7 @@ import apiRequest from '../../utils/apiRequest';
 import useYears from '../../hooks/useYears';
 import Modal from 'react-modal';
 import ModalCategories from '../../components/ModalCategoies';
+import FinanceForm from '../../components/FinanceForm';
 
 interface IRouteParams {
     match: {
@@ -27,11 +28,11 @@ interface IRouteParams {
     }
 }
 
-interface IData {
+export interface IData {
     id: number;
     description: string;
     amountFormatted: string;
-    category: object;
+    category: ICategory;
     dateFormatted: string;
     tagColor: string;
 }
@@ -270,7 +271,16 @@ const List: React.FC<IRouteParams> = ({ match }) => {
                 className="modal-content"
                 overlayClassName="modal-overlay"
             >
-                <h1>Adicionar recurso</h1>
+                <FinanceForm
+                    movimentType={movimentType === 'entry-balance' ? 'entrada' : 'saída'}
+                    categories={categories}
+                    render={{
+                        workAround: shouldRender,
+                        render: setSholdRender
+                    }}
+                    >
+
+                </FinanceForm>
             </Modal>
         </Container>
     );
