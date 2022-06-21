@@ -22,7 +22,7 @@ const FinanceForm: React.FC<IFinanceFormProps> = ({
 
     const [description, setDescription] = useState(financeRecord?.description || '');
     const [amount, setAmount] = useState(financeRecord?.amountFormatted || '');
-    const [date, setDate] = useState(financeRecord?.dateFormatted || new Date().toISOString().split('T')[0])
+    
 
     const categoryOptions = categories.map(category => {
         return {
@@ -31,9 +31,17 @@ const FinanceForm: React.FC<IFinanceFormProps> = ({
         }
     });
 
+    const unformat = () => {
+        const splited = financeRecord?.dateFormatted.split('/') || '';
+        return `${splited[2]}-${splited[1]}-${splited[0]}`;
+    }
 
+    const unformated: string | undefined = financeRecord ? unformat() : undefined;
+
+
+    const [date, setDate] = useState(unformated || new Date().toISOString().split('T')[0])
     const [categorySelected, setCategory] = useState(
-        financeRecord?.category.categoryId.toString
+        financeRecord?.category.categoryId.toFixed(0)
         ||
         categoryOptions[0].value.toFixed(0));
 

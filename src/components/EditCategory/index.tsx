@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 
-import { ICategory, IRenderList } from "../../pages/List"
+import { IRenderList } from "../../pages/List"
 import { Form } from './styles';
 import { SketchPicker } from 'react-color';
 import apiRequest from '../../utils/apiRequest';

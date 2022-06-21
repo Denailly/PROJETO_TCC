@@ -6,78 +6,75 @@ import {
     MdDelete
 } from 'react-icons/md';
 import apiRequest from '../../utils/apiRequest';
-import { IRenderList } from '../../pages/List';
+import { IData, IRenderList } from '../../pages/List';
 import { confirmAlert } from 'react-confirm-alert';
 import ConfirmationDialog from '../ConfirmationDialog';
+import formatCurrency from '../../utils/formatCurrency';
 
 interface IHistoryFinanceCardProps {
-    cardId: number;
-    tagColor: string;
-    title: string;
-    subtitle: string;
-    amount: string;
+    data: IData
     cardType: string;
-    render:IRenderList;
-
+    render: IRenderList;
+    openModal: (data: IData) => void;
 }
 
 const HistoryFinanceCard: React.FC<IHistoryFinanceCardProps> = ({
-    tagColor,
-    title,
-    subtitle,
-    amount,
-    cardId,
+    data,
     cardType,
-    render
+    render,
+    openModal
 }) => {
 
     const handleDelete = () => {
 
-        apiRequest(`/${cardType}s/${cardId}`, 'DELETE', `${cardType} deletada com sucesso`)
-        .promisse
-        .then(data => render.render(render.workAround + 1));
+        apiRequest(`/${cardType}s/${data.id}`, 'DELETE', `${cardType} deletada com sucesso`)
+            .promisse
+            .then(data => render.render(render.workAround + 1));
     }
 
     const deleteDialog = () => {
         confirmAlert({
             customUI: ({ onClose }) => {
-              return (
-                <ConfirmationDialog 
-                    resource={cardType}
-                    onClose={onClose}
-                    handleDelete={handleDelete}
-                    message={`Tem certeza que deseja apagar ${cardType}?`}
-                />
-              );
+                return (
+                    <ConfirmationDialog
+                        resource={cardType}
+                        onClose={onClose}
+                        handleDelete={handleDelete}
+                        message={`Tem certeza que deseja apagar ${cardType}?`}
+                    />
+                );
             }
-          });
-          
+        });
+
     }
 
     return (
-    <Container>
-        <Tag color={tagColor} />
-        <div>
-            <span>{title}</span>
-            <small>{subtitle}</small>
-        </div>
-        <div className='controller'>
-            <h3>{amount}</h3>
-            <div className="buttons">
-                <div className="editar">
-                    <button>
-                        <MdModeEdit />
-                    </button>
-                </div>
-                <div className="excluir" onClick={deleteDialog}>
-                    <button>
-                        <MdDelete />
-                    </button>
+        <Container onClick={() => openModal(data)}>
+            <Tag color={data.category.color} />
+            <div>
+                <span>{data.description}</span>
+                <small>{data.dateFormatted}</small>
+            </div>
+            <div className='controller'>
+                <h3>{formatCurrency(Number(data.amountFormatted))}</h3>
+                <div className="buttons">
+                    <div className="editar">
+                        <button>
+                            <MdModeEdit />
+                        </button>
+                    </div>
+                    <div className="excluir" onClick={deleteDialog}>
+                        <button>
+                            <MdDelete />
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </Container>
-)};
+
+
+        </Container>
+    )
+};
 
 
 export default HistoryFinanceCard;
