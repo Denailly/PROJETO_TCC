@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
 
     >Form:last-child{
-        margin-top: 7px;       
+        margin-top: 7px;
     }
 `
 
@@ -11,6 +11,10 @@ export const Form = styled.form`
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+
+    @media(max-width: 420px){
+        flex-direction: column;
+    }
 `;
 
 export const ButtonEditCategory = styled.button`
@@ -20,6 +24,10 @@ export const ButtonEditCategory = styled.button`
     color: ${props => props.theme.colors.white};
     border-radius: 5px;
     font-size: 16px;
+
+    @media(max-width: 420px) {
+        flex:1;
+    }
 `;
 
 export const ButtonDeleteCategory = styled.button`
@@ -29,6 +37,10 @@ export const ButtonDeleteCategory = styled.button`
     color: ${props => props.theme.colors.white};
     border-radius: 5px;
     font-size: 16px;
+
+    @media(max-width: 420px) {
+        flex:1;
+    }
 `
 
 export const ColorPickerCategories = styled.div`
@@ -37,11 +49,26 @@ export const ColorPickerCategories = styled.div`
 `
 export const NewCategories = styled.input`
     
-        font-size: 16px;
-        padding: 5px 20px;
-        margin: 10px 10px;
-        border-radius: 10px;
-        background-color: ${props => props.theme.colors.tertiary};
-        color: ${props => props.theme.colors.white}
+    font-size: 16px;
+    padding: 5px 20px;
+    margin: 10px 10px;
+    border-radius: 10px;
+    background-color: ${props => props.theme.colors.tertiary};
+    color: ${props => props.theme.colors.white};
     
 `
+export const TopDiv = styled.div`
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+`;
+
+export const ButtonsDiv = styled.div`
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+
+    @media(max-width: 420px){
+        justify-content: center;
+    }
+`;

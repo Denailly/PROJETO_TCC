@@ -8,6 +8,8 @@ import {
   ButtonDeleteCategory,
   ColorPickerCategories,
   NewCategories,
+  TopDiv,
+  ButtonsDiv,
 } from "./styles";
 
 import { SketchPicker } from "react-color";
@@ -55,7 +57,7 @@ export const EditCategory: React.FC<ICategoryEdit> = ({
         zIndex: 2,
 
         top: 0,
-        bottom:0,
+        bottom: 0,
         left: 0,
         right: 0,
         display: 'flex',
@@ -119,45 +121,50 @@ export const EditCategory: React.FC<ICategoryEdit> = ({
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
-        
-        
+
+        <TopDiv>
           <NewCategories
             type="text"
             required
             placeholder="Criar categoria"
             defaultValue={description}
             onChange={(e) => setDescriptionTyped(e.target.value)}
-          ></NewCategories>
-        
 
-        <ColorPickerCategories>
-          <div
-            style={styles.swatch}
-            onClick={() => setDisplayColorPicker(!displayColorPicker)}
-          >
-            <div style={styles.color} />
-          </div>
-          {displayColorPicker ? (
-            <div style={styles.popover}>
-              <div
-                style={styles.cover}
-                onClick={() => setDisplayColorPicker(false)}
-              />
-              <SketchPicker
-                color={pickedColor}
-                onChange={(color) => setColorPicked(color.hex)}
-              />
+          />
+
+          <ColorPickerCategories>
+            <div
+              style={styles.swatch}
+              onClick={() => setDisplayColorPicker(!displayColorPicker)}
+            >
+              <div style={styles.color} />
             </div>
-          ) : null}
-        </ColorPickerCategories>
-        <ButtonEditCategory type="submit">
-          {categoryId === 0 ? "Salvar" : "Editar"}
-        </ButtonEditCategory>
-        {categoryId !== 0 && (
-          <ButtonDeleteCategory type="button" onClick={deleteDialog}>
-            Excluir
-          </ButtonDeleteCategory>
-        )}
+            {displayColorPicker ? (
+              <div style={styles.popover}>
+                <div
+                  style={styles.cover}
+                  onClick={() => setDisplayColorPicker(false)}
+                />
+                <SketchPicker
+                  color={pickedColor}
+                  onChange={(color) => setColorPicked(color.hex)}
+                />
+              </div>
+            ) : null}
+          </ColorPickerCategories>
+
+        </TopDiv>
+
+        <ButtonsDiv>
+          <ButtonEditCategory type="submit">
+            {categoryId === 0 ? "Salvar" : "Editar"}
+          </ButtonEditCategory>
+          {categoryId !== 0 && (
+            <ButtonDeleteCategory type="button" onClick={deleteDialog}>
+              Excluir
+            </ButtonDeleteCategory>
+          )}
+        </ButtonsDiv>
       </Form>
     </Container>
   );
