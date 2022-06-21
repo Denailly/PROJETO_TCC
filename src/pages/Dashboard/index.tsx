@@ -321,12 +321,6 @@ const Dashboard: React.FC = () => {
 
                 <PieChartBox data={relationExpensesVersusGains} />
 
-                <HistoryBox
-                    data={historyData}
-                    lineColorAmountEntry="#3a9449"
-                    lineColorAmountOutput="#E44C4E"
-                />
-
                 <BarChartBox
                     title="Saídas"
                     data={relationExpensevesRecurrentVersusEventual}
