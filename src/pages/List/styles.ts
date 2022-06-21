@@ -64,6 +64,8 @@ export const Filters = styled.div`
     display: flex;
     justify-content: center;
     
+    flex-wrap: wrap;
+
     margin-bottom: 30px;
     
     .tag-actived {
