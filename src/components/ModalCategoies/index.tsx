@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Modal from 'react-modal';
 import { ICategory, IRenderList } from "../../pages/List";
 import EditCategory from "../EditCategory";
+import { TitleContainer } from "./styles";
 
 interface IModalCategories {
     isOpen: boolean;
@@ -25,7 +26,9 @@ export const ModalCategories: React.FC<IModalCategories> = ({
                 overlayClassName="modal-overlay"
 
             >
+               <TitleContainer lineColor={'#584bec'}>
                 <h1>Editar categorias</h1>
+                </TitleContainer>
                 {
                     categories.map(category => (
 

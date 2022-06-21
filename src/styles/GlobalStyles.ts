@@ -27,19 +27,21 @@ export default createGlobalStyle`
         bottom: 0;
         right: 0;
         left: 0;
-
         display: flex;
         align-items: center;
         justify-content: center;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
     }
 
     .modal-content {
         color: ${props => props.theme.colors.white};
-        background-color: ${props => props.theme.colors.gray};
+        background-color: ${props => props.theme.colors.secondary};
 
-        padding: 10px;
+        padding: 25px;
         width: 90%;
-        border-radius: 5px;
+        border-radius: 10px;
         max-width: 500px;
     }
 `;
