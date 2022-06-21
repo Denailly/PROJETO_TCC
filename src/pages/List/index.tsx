@@ -7,9 +7,11 @@ import HistoryFinanceCard from '../../components/HistoryFinanceCard';
 import listOfMonths from '../../utils/months';
 
 import {
+    Card,
     Category,
     Container,
     Content,
+    Delete,
     EditButtons,
     Filters
 } from './styles';
@@ -18,6 +20,10 @@ import useYears from '../../hooks/useYears';
 import Modal from 'react-modal';
 import ModalCategories from '../../components/ModalCategoies';
 import FinanceForm from '../../components/FinanceForm';
+import { uuid } from 'uuidv4';
+import { MdDelete } from 'react-icons/md';
+import { confirmAlert } from 'react-confirm-alert';
+import ConfirmationDialog from '../../components/ConfirmationDialog';
 
 interface IRouteParams {
     match: {
@@ -204,6 +210,34 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     }, [monthSelected, yearSelected, categoryFilterSelected, movimentType, shouldRender]);
 
 
+    const handleDelete = (cardId: number) => {
+
+        const operationType = movimentType === 'entry-balance' ? 'receita' : 'despesa';
+
+        apiRequest(`/${operationType}s/${cardId}`, 'DELETE', `${operationType} deletada com sucesso`)
+            .promisse
+            .then(data => setSholdRender(shouldRender + 1));
+    }
+
+    const deleteDialog = (cardId: number) => {
+        confirmAlert({
+            customUI: ({ onClose }) => {
+
+                const operationType = movimentType === 'entry-balance' ? 'entrada' : 'saída';
+
+                return (
+                    <ConfirmationDialog
+                        resource={operationType}
+                        onClose={onClose}
+                        handleDelete={() => { handleDelete(cardId) }}
+                        message={`Tem certeza que deseja apagar ${operationType}?`}
+                    />
+                );
+            }
+        });
+
+    }
+
     return (
         <Container>
             <ContentHeader title={pageData.title} lineColor={pageData.lineColor}>
@@ -249,16 +283,25 @@ const List: React.FC<IRouteParams> = ({ match }) => {
             <Content>
                 {
                     data.map(item => (
-                        <HistoryFinanceCard
-                            key={item.id}
-                            data={item}
-                            cardType={movimentType === 'entry-balance' ? 'receita' : 'despesa'}
-                            render={{
-                                workAround: shouldRender,
-                                render: setSholdRender
-                            }}
-                            openModal={openEditModal}
-                        />
+                        <Card key={uuid()}>
+                            <HistoryFinanceCard
+                                key={item.id}
+                                data={item}
+                                cardType={movimentType === 'entry-balance' ? 'receita' : 'despesa'}
+                                render={{
+                                    workAround: shouldRender,
+                                    render: setSholdRender
+                                }}
+                                openModal={openEditModal}
+                            />
+
+                            <Delete 
+                                key={uuid()}
+                                onClick={() => deleteDialog(item.id)}>
+                                <MdDelete />
+                            </Delete>
+
+                        </Card>
                     ))
                 }
             </Content>

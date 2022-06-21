@@ -21,6 +21,8 @@ const animate = keyframes`
 export const Container = styled.li`
     background-color: ${props => props.theme.colors.tertiary};
 
+    width: 100%;
+
     list-style: none;
     border-radius: 10px;
 
@@ -58,26 +60,22 @@ export const Container = styled.li`
         font-weight: 500;
     }
 
-    .controller {
+    .right-side {
         display:flex;
         flex-direction: row;
-        margin-right: 70px;
+        margin-right: 40px;
 
-        .buttons {
-            display:flex;
-            flex-direction: row;
-            position: absolute;
-            right: 0;
-            top: 0;
-            height: 100%;
-            border-bottom-right-radius: 10px;
-            border-top-right-radius: 10px;
 
             .editar{
                 height: 100%;
                 background-color: #825f00;
-                //border-left: 1px solid black;
-                //border-right: 1px solid black;
+                border-bottom-right-radius: 10px;
+                border-top-right-radius: 10px;
+
+                position: absolute;
+                right: 0;
+                top: 0;
+                
 
                 > button {
                 background-color: #825f00;
@@ -86,27 +84,13 @@ export const Container = styled.li`
                 top: 20%;
                 bottom: auto;
                 font-size: 30px;
-            }
-            }
-
-            .excluir {
-                height: 100%;
-                background-color:${props => props.theme.colors.warning};
-                border-bottom-right-radius: 10px;
-                border-top-right-radius: 10px;
-
-                > button {
-                background-color:${props => props.theme.colors.warning};
-                color: ${props => props.theme.colors.white};
                 position: relative;
                 top: 20%;
                 bottom: auto;
                 font-size: 30px;
             }
-            }
         }
     }
-
     
 `;
 

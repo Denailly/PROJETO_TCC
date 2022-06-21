@@ -8,6 +8,31 @@ export const Container = styled.div``;
 
 export const Content = styled.main``;
 
+export const Card = styled.div`
+    display: flex;
+    flex-direction: row;
+
+`;
+
+export const Delete = styled.div`
+    color: ${props => props.theme.colors.white};
+    background-color : ${props => props.theme.colors.warning};
+    font-size: 40px;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+
+    display: flex;
+    align-items: center;
+    
+    cursor: pointer;
+    transition: all .3s;
+    :hover {
+        opacity: .7;
+    }
+`;
+
 export const Category = styled.button<ICategoryProps>`
         font-size: 18px;
         font-weight: 500;
