@@ -97,8 +97,6 @@ const Dashboard: React.FC = () => {
 
     const years = useMemo(() => {
 
-        console.log(yearsAvaiable);
-
         return yearsAvaiable.map(year => {
             return {
                 value: year,
