@@ -53,6 +53,15 @@ export const EditCategory: React.FC<ICategoryEdit> = ({
       popover: {
         position: "absolute",
         zIndex: 2,
+
+        top: 0,
+        bottom:0,
+        left: 0,
+        right: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: "center"
       } as React.CSSProperties,
       cover: {
         position: "fixed",
@@ -110,15 +119,16 @@ export const EditCategory: React.FC<ICategoryEdit> = ({
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
-        <NewCategories>
-          <input
+        
+        
+          <NewCategories
             type="text"
             required
             placeholder="Criar categoria"
             defaultValue={description}
             onChange={(e) => setDescriptionTyped(e.target.value)}
-          ></input>
-        </NewCategories>
+          ></NewCategories>
+        
 
         <ColorPickerCategories>
           <div
