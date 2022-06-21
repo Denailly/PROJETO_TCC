@@ -18,7 +18,7 @@ import {
 import apiRequest from '../../utils/apiRequest';
 import useYears from '../../hooks/useYears';
 import Modal from 'react-modal';
-import ModalCategories from '../../components/ModalCategoies';
+import ModalCategories from '../../components/ModalCategories';
 import FinanceForm from '../../components/FinanceForm';
 import { uuid } from 'uuidv4';
 import { MdDelete } from 'react-icons/md';
