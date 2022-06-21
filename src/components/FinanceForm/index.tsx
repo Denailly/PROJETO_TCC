@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { ICategory, IData, IRenderList } from "../../pages/List";
 import apiRequest from "../../utils/apiRequest";
-import Input from "../Input";
 import SelectInput from "../SelectInput";
 import { Form } from "./styles";
+import NumberFormat from 'react-number-format';
+
 
 interface IFinanceFormProps {
     movimentType: string;
@@ -20,7 +21,7 @@ const FinanceForm: React.FC<IFinanceFormProps> = ({
 }) => {
 
     const [description, setDescription] = useState(financeRecord?.description || '');
-    const [amount, setAmount] = useState(financeRecord?.amountFormatted || '0,00');
+    const [amount, setAmount] = useState(financeRecord?.amountFormatted || '');
     const [date, setDate] = useState(financeRecord?.dateFormatted || new Date().toISOString().split('T')[0])
 
     const categoryOptions = categories.map(category => {
@@ -36,7 +37,6 @@ const FinanceForm: React.FC<IFinanceFormProps> = ({
         ||
         categoryOptions[0].value.toFixed(0));
 
-    console.log(categorySelected);
 
     const handlePost = (url: string, body: object): Promise<any> => {
 
@@ -80,27 +80,34 @@ const FinanceForm: React.FC<IFinanceFormProps> = ({
     return (
         <Form onSubmit={handleSubmit}>
             <h1>Adicionar {movimentType}</h1>
-            <Input
+            <input
+                required
                 placeholder="Descrição"
                 value={description}
                 onChange={event => setDescription(event.target.value)}
-            >
-            </Input>
-            <Input
-                placeholder="Valor"
+            />
+
+            <NumberFormat 
+                required
+                placeholder="R$ 0,00"
+                thousandSeparator="."
+                decimalSeparator=","
+                decimalScale={2}
+                allowNegative={false}
+                prefix="R$ "
                 value={amount}
-                onChange={event => setAmount(event.target.value)}
-            >
+                onValueChange={(values, sourceInfo) => {
+                    setAmount(values.value);
+                }}
+                isNumericString={true}
+            />
 
-            </Input>
-            <Input
+            <input
                 type="date"
-
+                required
                 value={date}
                 onChange={event => setDate(event.target.value)}
-            >
-
-            </Input>
+            />
 
             <SelectInput
                 options={categoryOptions}
