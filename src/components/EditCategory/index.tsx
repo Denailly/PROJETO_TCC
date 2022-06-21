@@ -157,7 +157,7 @@ export const EditCategory: React.FC<ICategoryEdit> = ({
 
         <ButtonsDiv>
           <ButtonEditCategory type="submit">
-            {categoryId === 0 ? "Salvar" : "Editar"}
+            {categoryId === 0 ? "Salvar nova categoria" : "Editar"}
           </ButtonEditCategory>
           {categoryId !== 0 && (
             <ButtonDeleteCategory type="button" onClick={deleteDialog}>

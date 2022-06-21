@@ -292,7 +292,7 @@ const Dashboard: React.FC = () => {
                     title="saldo"
                     color="#584bec"
                     amount={balance.finalBalance}
-                    footerlabel="atualizado com base nas entradas e saídas"
+                    footerlabel="atualizado com base nas entradas e saídas do mês"
                     icon="pig"
                 />
 
@@ -300,7 +300,7 @@ const Dashboard: React.FC = () => {
                     title="entradas"
                     color="#3ba84d"
                     amount={balance.totalGains}
-                    footerlabel="atualizado com base nas entradas e saídas"
+                    footerlabel="atualizado com base nas entradas e saídas do mês"
                     icon="arrowUp"
                 />
 
@@ -308,7 +308,7 @@ const Dashboard: React.FC = () => {
                     title="saídas"
                     color="#b0383a"
                     amount={balance.totalExpenses}
-                    footerlabel="atualizado com base nas entradas e saídas"
+                    footerlabel="atualizado com base nas entradas e saídas do mês"
                     icon="arrowDown"
                 />
 
