@@ -4,7 +4,6 @@ import ContentHeader from '../../components/ContentHeader';
 import SelectInput from '../../components/SelectInput';
 import HistoryFinanceCard from '../../components/HistoryFinanceCard';
 
-import formatCurrency from '../../utils/formatCurrency';
 import listOfMonths from '../../utils/months';
 
 import {
@@ -18,6 +17,7 @@ import apiRequest from '../../utils/apiRequest';
 import useYears from '../../hooks/useYears';
 import Modal from 'react-modal';
 import ModalCategories from '../../components/ModalCategoies';
+import FinanceForm from '../../components/FinanceForm';
 
 interface IRouteParams {
     match: {
@@ -27,11 +27,11 @@ interface IRouteParams {
     }
 }
 
-interface IData {
+export interface IData {
     id: number;
     description: string;
     amountFormatted: string;
-    category: object;
+    category: ICategory;
     dateFormatted: string;
     tagColor: string;
 }
@@ -57,6 +57,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     const [shouldRender, setSholdRender] = useState<number>(0);
     const [categoryModalOpen, setCategoryOpen] = useState(false);
     const [cardModal, setCardModalOpen] = useState(false);
+    const [modalChildren, setModalChildren] = useState<IData | undefined>(undefined);
 
     const movimentType = match.params.type;
     Modal.setAppElement('#root');
@@ -125,6 +126,12 @@ const List: React.FC<IRouteParams> = ({ match }) => {
         }
     }
 
+    const openEditModal = (data: IData) => {
+        setModalChildren(data);
+        setCardModalOpen(true);
+
+    }
+
     useEffect(() => {
         apiRequest('/categorias',
             'GET',
@@ -178,8 +185,13 @@ const List: React.FC<IRouteParams> = ({ match }) => {
                     return {
                         id: item.id,
                         description: item.descricao,
-                        amountFormatted: formatCurrency(Number(item.valor)),
-                        category: item.categoria,
+                        amountFormatted: item.valor,
+                        category: {
+                            categoryId: item.categoria.id,
+                            description: item.categoria.descricao,
+                            movimentType: item.categoria.tipo,
+                            color: item.categoria.cor
+                        },
                         dateFormatted: item.data,
                         tagColor: item.categoria.cor
                     }
@@ -239,21 +251,18 @@ const List: React.FC<IRouteParams> = ({ match }) => {
                     data.map(item => (
                         <HistoryFinanceCard
                             key={item.id}
-                            tagColor={item.tagColor}
-                            title={item.description}
-                            subtitle={item.dateFormatted}
-                            amount={item.amountFormatted}
-                            cardId={item.id}
+                            data={item}
                             cardType={movimentType === 'entry-balance' ? 'receita' : 'despesa'}
                             render={{
                                 workAround: shouldRender,
                                 render: setSholdRender
                             }}
+                            openModal={openEditModal}
                         />
                     ))
                 }
             </Content>
-            <ModalCategories 
+            <ModalCategories
                 categories={categories}
                 isOpen={categoryModalOpen}
                 setOpen={setCategoryOpen}
@@ -265,12 +274,25 @@ const List: React.FC<IRouteParams> = ({ match }) => {
 
             <Modal
                 isOpen={cardModal}
-                onRequestClose={() => setCardModalOpen(false)}
+                onRequestClose={() => {
+                    setModalChildren(undefined);
+                    setCardModalOpen(false);
+                }}
                 contentLabel="Modal card"
                 className="modal-content"
                 overlayClassName="modal-overlay"
             >
-                <h1>Adicionar recurso</h1>
+                <FinanceForm
+                    movimentType={movimentType === 'entry-balance' ? 'entrada' : 'saída'}
+                    categories={categories}
+                    render={{
+                        workAround: shouldRender,
+                        render: setSholdRender
+                    }}
+                    financeRecord={modalChildren}
+                >
+
+                </FinanceForm>
             </Modal>
         </Container>
     );
